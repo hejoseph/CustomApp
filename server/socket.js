@@ -91,6 +91,11 @@ module.exports = function(socket) {
     name: name
   });
 
+  socket.on('test', function (data) {
+    console.log("listening on event 'test', and receive data:");
+    console.log(data);
+  });
+
   // broadcast a user's message to other users
   socket.on('send:message', function (data) {
     console.log("username : "+name);

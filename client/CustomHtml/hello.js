@@ -1,5 +1,5 @@
-angular.module('hello', [])
-.controller('GetResponse', function ($scope, $location, $route, GetHello) {
+angular.module('hello', ['factories'])
+.controller('GetResponse', function ($scope, $location, $route, GetHello, socket) {
     
 
     $scope.GetHello = function() {
@@ -18,4 +18,15 @@ angular.module('hello', [])
 
     console.log("debug");
     $scope.hello = "hello my friend ";
+
+    socket.emit('test', {
+      name: "mynamejoseph"
+    }, function (result) {
+      if (!result) {
+        console.log('cannot send "test event"');
+      } else {
+        console.log("sucessfully sent");
+      }
+    });
+
 });

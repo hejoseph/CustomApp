@@ -1,5 +1,7 @@
 angular.module('halp-desk', [
   'halp-desk.factories',
+  'factories',
+  'btford.socket-io',
   'hello.factory',
   'halp-desk.open',
   'halp-desk.archive',
