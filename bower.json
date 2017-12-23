@@ -1,0 +1,28 @@
+{
+  "name": "jaysefappp",
+  "version": "1.0.0",
+  "authors": [
+    "jay jay"
+  ],
+  "license": "ISC",
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "client/lib"
+  ],
+  "dependencies": {
+    "angular": "1.5.x",
+    "angular-socket-io": "~0.3.0",
+    "angular-animate": "1.5.x",
+    "angular-mocks": "1.5.x",
+    "angular-resource": "1.5.x",
+    "angular-route": "1.5.x",
+    "bootstrap": "3.3.x",
+    "jquery": "2.2.x"
+  },
+  "resolutions": {
+    "angular": "1.5.x"
+  }
+}

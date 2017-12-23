@@ -1,0 +1,69 @@
+body {
+  background-color: #F1F1F1;
+}
+
+.content {
+  padding: 2rem;
+  max-width: 1440px;
+}
+
+.ticket, form {
+  padding: .5rem;
+  margin: 1rem 0;
+  background: #fff;
+  font-size: 1em;
+  line-height: 1.3em;
+  border-radius: 10px;
+  box-shadow: 0 0 0 4px #fff, 2px 2px 6px 3px rgba(10, 10, 0, 0.5);
+  font-weight: normal;
+}
+
+form {
+  border-radius: 0;
+  box-shadow: 0 0 0 4px #fff, 2px 3px 6px 1px rgba(10, 10, 0, 0.5);
+}
+
+form .btn {
+  border-radius: 0;
+}
+
+.ticket > .row {
+  padding: 5px;
+}
+
+h2 {
+  margin-bottom: 3rem;
+}
+
+.ticket-subject {
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.ticket-open, .ticket-closed {
+  color: #fff;
+  padding: 5px 15px;
+  height: 2rem;
+}
+
+.ticket-open {
+  background: rgb(255, 152, 0);
+}
+
+.ticket-closed {
+  background: rgb(0, 118, 255);
+}
+
+.chat-link {
+  overflow-x: hidden;
+}
+
+.fa {
+  cursor: pointer;
+  font-size: 1.3em;
+  margin: -10px 0 0 0;
+}
+
+textarea {
+  min-height: 7rem;
+}
