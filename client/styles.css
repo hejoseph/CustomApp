@@ -1,4 +1,25 @@
 body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.container{
+    text-align:center;
+}
+
+.msg-error{
+    color : red;
+}
+
+li{
+  list-style: none;
+}
+
+/*body {
   background-color: #F1F1F1;
 }
 
@@ -67,3 +88,4 @@ h2 {
 textarea {
   min-height: 7rem;
 }
+*/

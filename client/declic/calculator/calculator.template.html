@@ -1,0 +1,91 @@
+<div>
+  <label> {{$ctrl.mymsg}} Number of players : </label>
+  <span ng-show="!editingNbPlayers">{{nb}}</span>
+  <input type="text" ng-model="nb" ng-show="editingNbPlayers"> 
+  <button ng-click="editNbPlayers()" ng-show="!editingNbPlayers&&settingNb" >Edit</button>
+  <button ng-click="validateNbPlayers()" ng-show="!editingNbPlayers&&settingNb" >Ok</button>
+  <button ng-click="updateNbPlayers()" ng-show="editingNbPlayers">Update</button>
+  <button ng-click="cancelNbPlayers()" ng-show="editingNbPlayers">Cancel</button>
+</div>
+<div class="msg-error">
+  {{messageNbPlayers}} 
+</div>
+
+<div ng-show="players.length>0">
+  Round {{numRound+1}}
+</div>
+
+<div>
+  <ul>
+    <li ng-repeat="player in players">
+      <div>
+        <span ng-show="player.scores[numRound]!=null">{{player.scores[numRound]}}</span>
+        <span ng-click="editingPlayerName($index)" ng-show="!player.editingName">{{player.name}}</span>
+        <span ng-show="player.editingName">
+          <input ng-model="player.name"  />
+          <buttong ng-click="setName($index)">Ok</button>
+        </span>
+        <span ng-show="player.scores[numRound]==null">
+          <button ng-click="addScore($index)">+</button>
+          <button ng-click="subScore($index)">-</button>
+        </span>
+      </div>
+    </li>
+    <li>
+    <button ng-show="allPlayerScored()" ng-click="validateRound()">Validate Round</button>
+    <button ng-show="onePlayerScore()" ng-click="resetRound()">Reset Round</button>
+    </li>
+  </ul>
+  <div ng-show="players.length>0">
+
+    <table ng-show="!portraitView">
+      <thead>
+        <tr>
+          <th ng-click="switchView()">Names/Round</th>
+          <th ng-repeat="n in [] | range:numRound+1">{{n+1}}</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="player in players">
+          <td>{{player.name}}</td>
+          <!--<td>{{player.scores}}</td>-->
+          <td ng-repeat="score in player.scores track by $index">{{score}}</td>
+          <td ng-if="player.scores[numRound]==null">0</td>
+          <td>{{player.total}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="debug">
+    {{players}}
+    <div ng-repeat="n in [] | range:players[0].scores.length">
+      oh ... {{n}}
+    </div>
+    </div>
+
+    <table ng-show="portraitView">
+      <thead>
+        <tr>
+          <th ng-click="switchView()">Rounds/Names</th>
+          <th ng-repeat="player in players">{{player.name}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="n in [] | range:numRound+1">
+          <td>{{n+1}}s</td>
+          <td ng-repeat="player in players">{{player.scores[n]||0}}</td>
+        </tr>
+        <tr>
+          <td>Totals</td>
+          <td ng-repeat="player in players">{{player.total}}</td>
+        </tr>
+        <tr>
+        <div ng-repeat="value in [4, 4] track by $index">value : {{value}}, index : {{$index}}</div>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</div>

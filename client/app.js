@@ -1,12 +1,12 @@
 angular.module('halp-desk', [
   'halp-desk.factories',
   'factories',
-  'btford.socket-io',
   'hello.factory',
   'halp-desk.open',
   'halp-desk.archive',
   'ngRoute',
-  'hello'
+  'hello',
+  'declic.calculator'
 ])
 .config(function ($routeProvider) {
   $routeProvider

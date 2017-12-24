@@ -81,6 +81,10 @@ module.exports = function(socket) {
     users: userNames.get()
   });
 
+  socket.emit('hello', {
+    msg : "hello friend"
+  });
+
   console.log("new guest arrived, so send him all msgs");
   socket.emit("response:allMsgs",{
     messages : dbMsg.getAllMsg()

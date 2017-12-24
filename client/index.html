@@ -19,7 +19,10 @@
     <link rel="stylesheet" type="text/css" href="./styles.css" />
   </head>
   <body>
-    <div ng-view id="main"></div>
+    
+    <div class="container" ng-view id="main">
+    </div>
+
     <script src="lib/angular/angular.js"></script>
     <script src="lib/angular-route/angular-route.js"></script>
 
@@ -31,9 +34,13 @@
     <script src="./services/factories.module.js"></script>
     <script src="./services/socket.js"></script>
     
-
     <script src="./app.js"></script>
     <script src="./app.config.js"></script>
+
+    <script src="./declic/calculator/calculator.module.js"></script>
+    <script src="./declic/calculator/calculator.component.js"></script>
+
+
     <script src="./CustomHtml/hello.js"></script>
     <script src="./CustomHtml/next.component.js"></script>
     <script src="./CustomHtml/hello.services.js"></script>
