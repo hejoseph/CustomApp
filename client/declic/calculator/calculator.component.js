@@ -1,6 +1,5 @@
 'use strict';
 
-// Register `phoneDetail` component, along with its associated controller and template
 angular.
   module('declic.calculator')
 
@@ -17,11 +16,13 @@ angular.
   .component('calculator', {
     templateUrl: './declic/calculator/calculator.template.html',
     controller: ['$scope', '$routeParams', '$location', 'socket', CalculatorCtrl
-      ]
+      ],
+    controllerAs: 'vm'
   });
 
 
 function CalculatorCtrl ($scope, $routeParams, $location, socket) {
+  this.newVar = "my new var";
   $scope.profilName = "Jaysef";
   $scope.nb = 0;
   $scope.editingNbPlayers = false;
@@ -56,6 +57,10 @@ function CalculatorCtrl ($scope, $routeParams, $location, socket) {
       players : angular.copy($scope.players),
       playerOrder : angular.copy($scope.playerOrder),
     };
+  }
+
+  this.showmsg = function(){
+    alert('hi');
   }
 
   $scope.editNbPlayers = function(){

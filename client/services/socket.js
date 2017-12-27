@@ -1,4 +1,3 @@
-
 angular.module('factories')
     .factory('socket', function ($rootScope) {
   var socket = io.connect();

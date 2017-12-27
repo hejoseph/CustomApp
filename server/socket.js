@@ -1,73 +1,22 @@
-// Keep track of which names are used so that there are no duplicates
-var userNames = (function () {
-  var names = {};
-  console.log("socket server side, init cache names");
-  var claim = function (name) {
-    if (!name || names[name]) {
-      return false;
-    } else {
-      names[name] = true;
-      return true;
-    }
-  };
-
-  // find the lowest unused "guest" name and claim it
-  var getGuestName = function () {
-    var name,
-      nextUserId = 1;
-
-    do {
-      name = 'Guest ' + nextUserId;
-      nextUserId += 1;
-    } while (!claim(name));
-
-    return name;
-  };
-
-  // serialize claimed names as an array
-  var get = function () {
-    var res = [];
-    for (user in names) {
-      res.push(user);
-    }
-
-    return res;
-  };
-
-  var free = function (name) {
-    if (names[name]) {
-      delete names[name];
-    }
-  };
-
-  return {
-    claim: claim,
-    free: free,
-    get: get,
-    getGuestName: getGuestName
-  };
-}());
-
-var dbMsg = (function(){
-  console.log("init once msgs cache");
-  var msgs = [];
-
-  var getAllMsg = function(){
-    return msgs;
-  }
-
-  var addMsg = function(msg){
-    msgs.push(msg);
-  }
-
-  return {
-      getAllMsg : getAllMsg,
-      addMsg : addMsg
-  };
-}());
-
+console.log("requiring server data in socket js");
+var serverdata = require("./serverdata.js");
+console.log("in socket js : required");
+console.log("UserNames created at : "+serverdata.userNames.getCreated());
+console.log("DbMsg created at : "+serverdata.dbMsg.getCreated());
 // export function for listening to the socket
 // module.exports = function (socket) {
+
+var obj = serverdata.userNames;
+console.log("get box in socket js : "+obj.getBox());  
+console.log("set box to 'bye'");
+obj.setBox("bye");
+console.log("get box :"+obj.getBox());  
+
+
+var userNames = serverdata.userNames;
+var dbMsg = serverdata.dbMsg;
+
+
 
 module.exports = function(socket) {
   var name = userNames.getGuestName();
@@ -137,5 +86,15 @@ module.exports = function(socket) {
       name: name
     });
     userNames.free(name);
+    console.log("client disconnected "+name);
   });
+
+  this.getAllUsers = function(){
+    console.log("getting users ? ");
+    return userNames.get();
+  }
+
 };
+
+
+

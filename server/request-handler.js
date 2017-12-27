@@ -1,3 +1,17 @@
+
+console.log("requiring server data in handler js");
+var serverdata = require("./serverdata.js");
+console.log("in handler js : required");
+console.log("UserNames created at : "+serverdata.userNames.getCreated());
+console.log("DbMsg created at : "+serverdata.dbMsg.getCreated());
+
+var obj = serverdata.userNames;
+console.log("get box in handler js : "+obj.getBox());  
+console.log("set box to 'morning'");
+obj.setBox("morning");
+console.log("get box :"+obj.getBox());  
+
+
 const express = require('express');
 const router = express.Router();
 // const pg = require('pg');
@@ -6,6 +20,7 @@ const path = require('path');
 
 // var client = new pg.Client(connection);
 // client.connect();
+
 
 exports.submitTicket = (req, res) => {
   console.log("calling submit ticker services");
@@ -74,4 +89,21 @@ exports.deleteTicket = (req, res) => {
 exports.getResponse = (req, res) => {
     var response = {response : "hello"}
     return res.json(response);
+};
+
+
+var globalA = "A";
+
+exports.getDataServerA = (req, res) => {
+    console.log("getting server data A");
+    var temp = globalA;
+    globalA = "B";
+    return res.json(temp);
+};
+
+exports.getDataServerB = (req, res) => {
+    console.log("getting server data B");
+    var temp = globalA;
+    globalA = "A";
+    return res.json(temp);
 };

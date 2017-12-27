@@ -1,3 +1,8 @@
+console.log("requiring socket.js");
+var socket = require('./socket.js');
+console.log("sleeping ...");
+sleep(5000);
+console.log("socket.js is required");
 const express = require('express');
 const path = require('path');
 const routes = require('./routes');
@@ -6,8 +11,6 @@ const app = express();
 const port = process.env.PORT || 3000;
 const router = express.Router();
 const bodyParser = require('body-parser');
-
-var socket = require('./socket.js');
 
 
 app.set('view engine', 'html');
@@ -31,7 +34,6 @@ router.get('/', (req, res, next) => {
 //     ? console.log('Cannot connect...', err)
 //     : console.log(`Connected! Server is listening on port ${port}`);
 // });
-
 var http = require('http');
 var server = http.createServer(app);
 
@@ -44,3 +46,11 @@ server.listen(port, (err) => {
 var io = require('socket.io').listen(server);
 
 io.sockets.on('connection', socket);
+
+
+
+
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
