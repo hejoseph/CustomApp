@@ -107,3 +107,45 @@ exports.getDataServerB = (req, res) => {
     globalA = "A";
     return res.json(temp);
 };
+
+
+var declic = require("./models/declic.js");
+
+declic.createCalculator("josep",5);
+
+//get all calculator in declic
+exports.getCalculators = (req, res) => {
+    console.log("getting all calculators from declic main instance");
+    return res.json(declic.calculators);
+};
+
+//req = {"id":"123456"} GET
+exports.getCalculator = (req, res) => {
+    console.log("getting one calc by id");
+    console.log(req.query);
+    var id = req.query.id;
+    console.log(JSON.stringify(declic.calculators[id]));
+    return res.json(declic.calculators[id]);
+};
+
+//req = {"name":"name","nb_player":2}
+exports.createCalculator = (req, res) => {
+    console.log("client ask server to crate calculator");
+
+    var param = req.body;
+    var name = param.name;
+    var nb = param.nb_player;
+    console.log("name : "+name+";nb="+nb);
+    var id = declic.createCalculator(name, nb);
+    return res.json(req.body);
+};
+
+exports.saveCalculator = (req, res) => {
+    console.log("client ask server to save calculator");
+    var calculator = req.body;
+    console.log("body received by server is : ");
+    console.log(calculator);
+    declic.saveCalculator(calculator);
+    calculator.saved = true;
+    return res.json(calculator);
+};

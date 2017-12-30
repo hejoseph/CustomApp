@@ -76,6 +76,7 @@ function DbMsg(){
   }
 };
 
+//use this function to get singleton object
 function getUserNames(){
 
   if(typeof userNames == "undefined"){

@@ -15,159 +15,203 @@ angular.
 
   .component('calculator', {
     templateUrl: './declic/calculator/calculator.template.html',
-    controller: ['$scope', '$routeParams', '$location', 'socket', CalculatorCtrl
+    controller: ['$scope', '$routeParams', '$location', '$window', 'Utils','Calculator', CalculatorCtrl
       ],
     controllerAs: 'vm'
   });
 
+function CalculatorCtrl ($scope, $routeParams, $location, $window, Utils, Calculator) {
+  var vm = this;
+  var id = $routeParams.calcId;
+  vm.calculator = {"_players":[]};
 
-function CalculatorCtrl ($scope, $routeParams, $location, socket) {
-  this.newVar = "my new var";
-  $scope.profilName = "Jaysef";
-  $scope.nb = 0;
-  $scope.editingNbPlayers = false;
-  $scope.nbRealPlayers = 0;
-  $scope.players = [];
-  $scope.settingNb = true;
-  $scope.portraitView = true;
-  $scope.numRound = 0;
-  $scope.playerOrder = 1;
-
-  $scope.range = function(n) {
-      return new Array(n);
-  };
-
-  this.mymsg = "my msg this";
-
-  socket.on('init', function (data) {
-    console.log("on init data return : "+JSON.stringify(data));
-    $scope.name = data.name;
-    $scope.users = data.users;
-  });
-
-  socket.on('hello', function (data) {
-    console.log("on init data return : "+JSON.stringify(data));
-    $scope.name = data.name;
-    $scope.users = data.users;
-  });
-
-  var copyState = function(){
-    //console.log("copying state, at this moment "+$scope.players.length);
-    $scope.currentGameState = {
-      players : angular.copy($scope.players),
-      playerOrder : angular.copy($scope.playerOrder),
-    };
+  vm.getRound = function(){
+      console.log("getting round");
+      if(vm.calculator._players.length>0){
+          return vm.calculator._players[0]._scores.length;
+      }
+      return 0;
   }
 
-  this.showmsg = function(){
-    alert('hi');
-  }
 
-  $scope.editNbPlayers = function(){
-    //console.log("edit click");
-    $scope.editingNbPlayers = !$scope.editingNbPlayers;
-    $scope.nbTemp = angular.copy($scope.nb);
-  }
-  $scope.validateNbPlayers = function(){
-    if($scope.nb<3){
-      $scope.messageNbPlayers = "min nb players should be 3 ...";
-      return;
-    }
-    $scope.messageNbPlayers = "";
-    for(var i = 1; i<=$scope.nb ;i++){
-      $scope.players.push({
-        name : "Player "+i,
-        scores :[],
-        total : 0,
-        editingName : false,
-        scored : false
-      });
-    }
-    $scope.settingNb = false;
-    copyState();
-  }
-  $scope.updateNbPlayers = function(){
-    //console.log("total nb player = " + $scope.nbRealPlayers);
-    $scope.editingNbPlayers = !$scope.editingNbPlayers;
-  }
-  $scope.cancelNbPlayers = function(){
-    //console.log("nbTemps "+$scope.nbTemp);
-      $scope.nb = $scope.nbTemp;
-      $scope.editingNbPlayers = !$scope.editingNbPlayers;
-  }
-  $scope.switchView = function(){
-    $scope.portraitView = !$scope.portraitView;
-  }
-  // var setPrevUrl = function(){
-    // //console.log("setting prev url ...");
-  // }
-
-  $scope.editingPlayerName = function(index){
-    $scope.players[index].editingName = true;
-  }
-
-  $scope.setName = function(index){
-    $scope.players[index].editingName = false;
-  }
-
-  $scope.addScore = function(index){
-    console.log("index:"+index+" round:"+$scope.numRound);
-    $scope.players[index].scores[$scope.numRound] = $scope.playerOrder;
-    $scope.players[index].total+=$scope.playerOrder;
-    console.log("score added "+$scope.playerOrder);
-    $scope.playerOrder+=1;
-    console.log("inc");
-    console.log(JSON.stringify($scope.players[index]));
-    // $scope.players[index].scored = true;
-  }
-
-  $scope.subScore = function(index){
-    $scope.players[index].scores[$scope.numRound] = -$scope.playerOrder;
-    $scope.players[index].total-=$scope.playerOrder;
-    $scope.playerOrder+=1;
-    // $scope.players[index].scored = true;
-  }
-
-  $scope.allPlayerScored = function(){
-    if($scope.players.length==0) return false;
-    for( var i=0;i<$scope.players.length;i++){
-      //console.log("reading index at "+$scope.numRound);
-      // //console.log(JSON.stringify($scope.players));
-      if($scope.players[i].scores[$scope.numRound]==null){
+  vm.allPlayerScored = function(){
+    if(vm.calculator._players.length==0) return false;
+    for( var i=0;i<vm.calculator._players.length;i++){
+      //console.log("reading index at "+vm.numRound);
+      // //console.log(JSON.stringify(vm.players));
+      if(vm.calculator._players[i]._scores[vm.numRound]==null){
         return false;
       }
     }
     return true;
   }
 
-  $scope.onePlayerScore = function(){
-    for(var i=0;i<$scope.players.length;i++){
-      if($scope.players[i].scores[$scope.numRound]!=null){
+  //return 
+  vm.getCalculator = function(id){
+    Calculator.getCalculator(id)
+      .then(function(calculator) {
+        console.log("success");
+        console.log("empty ? "+calculator == "");
+        if(!calculator){
+          console.log("calc empty");
+          var errorMsg = "id '"+id+"' not found in the server, sorry mate :s";
+          $window.location.href = "#/error/"+errorMsg;
+        }
+        vm.calculator = calculator;
+        console.log("player at 0 ");
+        vm.numRound = vm.getRound();
+        vm.editingNames = Utils.initDefaultArray(vm.calculator._players.length, false);
+        console.log(vm.editingNames);
+        copyState();
+      })
+      .catch(function(error) {
+        console.log("error getting calc by id");
+        console.error(error);
+    });
+  }
+  vm.getCalculator(id);
+
+
+  vm.editingNbPlayers = false;
+  vm.settingNb = true;
+  vm.portraitView = true;
+  vm.numRound = 0;
+  vm.playerOrder = 1;
+
+  vm.range = function(n) {
+      return new Array(n);
+  };
+
+  // socket.on('init', function (data) {
+  //   console.log("on init data return : "+JSON.stringify(data));
+  //   vm.name = data.name;
+  //   vm.users = data.users;
+  // });
+
+  // socket.on('hello', function (data) {
+  //   console.log("on init data return : "+JSON.stringify(data));
+  //   vm.name = data.name;
+  //   vm.users = data.users;
+  // });
+
+  var copyState = function(){
+    //console.log("copying state, at this moment "+vm.players.length);
+    vm.currentGameState = {
+      players : angular.copy(vm.calculator._players),
+      playerOrder : angular.copy(vm.playerOrder),
+    };
+    console.log("copied !");
+    console.log(vm.currentGameState);
+  }
+
+  this.showmsg = function(){
+    alert('hi');
+  }
+
+  vm.editNbPlayers = function(){
+    //console.log("edit click");
+    vm.editingNbPlayers = !vm.editingNbPlayers;
+    vm.nbTemp = angular.copy(vm.nb);
+  }
+  // vm.validateNbPlayers = function(){
+  //   if(vm.nb<3){
+  //     vm.messageNbPlayers = "min nb players should be 3 ...";
+  //     return;
+  //   }
+  //   vm.messageNbPlayers = "";
+  //   for(var i = 1; i<=vm.nb ;i++){
+  //     vm.players.push({
+  //       name : "Player "+i,
+  //       scores :[],
+  //       total : 0,
+  //       editingName : false,
+  //       scored : false
+  //     });
+  //   }
+  //   vm.settingNb = false;
+  //   copyState();
+  // }
+  vm.updateNbPlayers = function(){
+    //console.log("total nb player = " + vm.nbRealPlayers);
+    vm.editingNbPlayers = !vm.editingNbPlayers;
+  }
+  vm.cancelNbPlayers = function(){
+    //console.log("nbTemps "+vm.nbTemp);
+      vm.nb = vm.nbTemp;
+      vm.editingNbPlayers = !vm.editingNbPlayers;
+  }
+  vm.switchView = function(){
+    vm.portraitView = !vm.portraitView;
+  }
+  // var setPrevUrl = function(){
+    // //console.log("setting prev url ...");
+  // }
+
+  vm.editingPlayerName = function(index){
+    vm.editingNames[index] = true;
+  }
+
+  vm.setName = function(index){
+    vm.editingNames[index] = false;
+  }
+
+  vm.addScore = function(index){
+    console.log("index:"+index+" round:"+vm.numRound);
+    vm.calculator._players[index]._scores[vm.numRound] = vm.playerOrder;
+    // vm.calculator._players[index]._total+=vm.playerOrder;
+    console.log("score added "+vm.playerOrder);
+    vm.playerOrder+=1;
+    console.log("inc");
+    console.log(JSON.stringify(vm.calculator._players[index]));
+    console.log(vm.calculator._players[index]._scores[vm.numRound]!=null);
+    // vm.players[index].scored = true;
+  }
+
+  vm.subScore = function(index){
+    vm.calculator._players[index]._scores[vm.numRound] = -vm.playerOrder;
+    // vm.calculator._players[index].total-=vm.playerOrder;
+    vm.playerOrder+=1;
+    // vm.players[index].scored = true;
+  }
+
+  
+
+  vm.onePlayerScore = function(){
+    for(var i=0;i<vm.calculator._players.length;i++){
+      if(vm.calculator._players[i]._scores[vm.numRound]!=null){
         return true;
       }
     }
     return false;
   }
 
-  $scope.validateRound = function(){
+  vm.validateRound = function(){
     //console.log("validate clicked");
-    $scope.numRound += 1;
+    vm.numRound += 1;
     //console.log("round inc");
-    $scope.playerOrder = 1;
+    vm.playerOrder = 1;
     //console.log("playerOrder reset");
     copyState();
+    Calculator.saveCalculator(vm.calculator);
   }
 
-  $scope.resetRound = function(){
+  vm.resetRound = function(){
     //console.log("reset clicked");
-    //console.log(JSON.stringify($scope.currentGameState));
+    //console.log(JSON.stringify(vm.currentGameState));
     //console.log("players");
-    //console.log(JSON.stringify($scope.players));
+    //console.log(JSON.stringify(vm.players));
     //console.log("order");
-    //console.log(JSON.stringify($scope.playerOrder));
+    //console.log(JSON.stringify(vm.playerOrder));
 
-    $scope.players = angular.copy($scope.currentGameState.players);
-    $scope.playerOrder = angular.copy($scope.currentGameState.playerOrder);
+    vm.calculator._players = angular.copy(vm.currentGameState.players);
+    vm.playerOrder = angular.copy(vm.currentGameState.playerOrder);
   }
+
+  console.log("vm = ");
+  console.log(JSON.stringify(vm));
+
+}
+
+function init(calculator){
 
 }

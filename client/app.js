@@ -6,7 +6,8 @@ angular.module('halp-desk', [
   'halp-desk.archive',
   'ngRoute',
   'hello',
-  'declic.calculator'
+  'declic.calculator',
+  'declic.list-calculator'
 ])
 .config(function ($routeProvider) {
   $routeProvider
@@ -21,8 +22,8 @@ angular.module('halp-desk', [
   .when('/archive', {
     templateUrl: './archive/archive.html',
     controller: 'ArchiveController'
-  })
-  .otherwise({
-    redirectTo: '/open'
   });
+  // .otherwise({
+  //   redirectTo: '/'
+  // });
 });

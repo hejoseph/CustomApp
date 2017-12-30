@@ -7,8 +7,17 @@ angular.module('halp-desk')
   .when('/declic', {
     templateUrl: '/declic.html'
   })
-  .when('/declic/calc', {
+  .when('/declic/list-calc', {
+    template: '<list-calculator></list-calculator>'
+  })
+  .when('/declic/calc/:calcId', {
     template: '<calculator></calculator>'
+  })
+  .when('/error/:errorMsg', {
+    templateUrl: './error.template.html',
+    controller: ['$scope', '$routeParams', function ErrorCtrl($scope, $routeParams){
+        $scope.errorMsg = $routeParams.errorMsg;
+    }],
   })
   // .when('/declic/calc/create', {
   //   templateUrl: './declic/calculator/create/creating.template.html'
