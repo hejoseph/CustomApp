@@ -4,6 +4,9 @@ angular.module('halp-desk')
   .when('/', {
     templateUrl: './declic/main.template.html'
   })
+  .when('/test', {
+    templateUrl: './test.html'
+  })
   .when('/declic', {
     templateUrl: '/declic.html'
   })

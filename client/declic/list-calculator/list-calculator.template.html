@@ -1,6 +1,50 @@
-<h1>List Calculator View</h1>
-<button ng-click="creating=true" ng-show="!creating" class="btn btn-primary">+</button>
-<div ng-show="creating">
+<nav class="navbar navbar-fixed-top navbar-dark bg-inverse" style="text-align:center">
+    <span class="navbar-brand" href="#" style="color:white"><h4><i class="fa fa-user"></i> <span style="font-size:small;text-align:center">List Calculator</span>
+    <span>
+<!-- ng-click="creating=true" ng-show="!creating" -->
+        <button class="btn btn-info" data-toggle="modal" data-target="#myModal">+</button>
+    </span>
+    </h4></span>
+</nav>
+
+<div class="container">
+
+
+<!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Create Calculator</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <form novalidate name="submitTicketForm" class='submitTicketForm' ng-submit='vm.createCalculator(vm.calculator)'>
+            <div class="modal-body">
+                <div class="form-group">
+                  <label>Name</label>
+                  <input type="text" class="form-control" ng-model="vm.calculator._name">
+                </div>
+                <div class="form-group">
+                  <label>Nb players</label>
+                  <input type="text" class="form-control" ng-model="vm.calculator._nbPlayers"></input>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" data-toggle="modal">Submit</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+
+
+
+<!-- <div class="popupCreatingCalc" ng-show="creating">
     <form novalidate name="submitTicketForm" class='submitTicketForm' ng-submit='vm.createCalculator(vm.calculator)'>
         <div class="form-group">
           <label>Name</label>
@@ -11,11 +55,11 @@
           <input type="text" class="form-control" ng-model="vm.calculator._nbPlayers"></input>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
-        <button class="btn btn-primary" ng-click="creating=false">Close</button>
-      </form>
-</div>
-<div class="row">
-    <table>
+        <button type="button" class="btn btn-primary" ng-click="creating=false">Close</button>
+    </form>
+</div> -->
+<div class="table-responsive" style="margin-top:30px 0px;">
+    <table class="table" stle="text-align:center">
         <thead>
             <tr>
                 <th>ID</th>
@@ -31,4 +75,6 @@
             </tr>
         </tbody>
     </table>
+</div>
+
 </div>

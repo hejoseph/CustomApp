@@ -1,0 +1,35 @@
+h1 {
+    padding-top:50px;
+}
+
+.footer {
+    padding: 15px 0;
+    background: #042a36;
+    color: #fff;
+}
+
+.white {
+    color: white !important;
+}
+
+@media (min-width: 1200px)
+.container {
+    width: 1170px;
+}
+@media (min-width: 992px)
+.container {
+    width: 970px;
+}
+@media (min-width: 768px)
+.container {
+    width: 750px;
+}
+.container {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.text-center {
+    text-align: center;
+}

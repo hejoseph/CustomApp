@@ -1,5 +1,13 @@
-<div>Calc Name : {{vm.calculator._name}}</div>
-<div><a href="#/declic/list-calc">Back</a></div>
+
+<nav class="navbar navbar-fixed-top navbar-dark bg-inverse" style="text-align:center">
+    <span class="navbar-brand" href="#" style="color:white"><h4><i class="fa fa-user"></i> <span style="font-size:small;text-align:center">Calculator : {{vm.calculator._name}}</span>
+    </h4></span>
+</nav>
+
+
+<div class="container" style="padding-top:30px 0px; text-align:center">
+    
+<div><a href="/#/declic/list-calc">Back</a></div>
 <div ng-show="vm.calculator._players.length>0">
     <div>
         Round {{vm.numRound+1}}
@@ -30,11 +38,38 @@
             </li>
         </ul>
     </div>
-
-
+  <div class="table-responsive" ng-show="vm.calculator._players[0]._scores.length>0">
+    <table class="table" stle="text-align:center">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Player</th>
+                <th>Total</th>
+                <th ng-repeat="score in vm.calculator._players[0]._scores track by $index">
+                    {{$index+1}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="player in vm.calculator._players track by $index" >
+                <td>{{vm.ranks[$index]}}</td>
+                <td>{{player._name}}</td>
+                <td>{{vm.getTotalScore(player)}}</td>
+                <td ng-repeat="score in player._scores track by $index"" >
+                    {{score}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
 
 </div>
 
+
+
 <div ng-show="vm.calculator._players.length==0">
     No players added
+</div>
+
+
 </div>

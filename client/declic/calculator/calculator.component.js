@@ -24,7 +24,7 @@ function CalculatorCtrl ($scope, $routeParams, $location, $window, Utils, Calcul
   var vm = this;
   var id = $routeParams.calcId;
   vm.calculator = {"_players":[]};
-
+  vm.ranks = [];
   vm.getRound = function(){
       console.log("getting round");
       if(vm.calculator._players.length>0){
@@ -33,6 +33,33 @@ function CalculatorCtrl ($scope, $routeParams, $location, $window, Utils, Calcul
       return 0;
   }
 
+  vm.getTotalScore = function(player){
+      // console.log("total score of player");
+      var total = Utils.sumArray(player._scores);
+      // console.log(total);
+      // console.log(player);
+      return total;
+      // return Utils.sumArray(array);
+  }
+
+  vm.getAllScores = function(calculator){
+      console.log("inside getAllScores");
+      console.log(JSON.stringify(calculator));
+      console.log("total player : "+calculator._players.length);
+      console.log("nb score for player 1 "+calculator._players[0]._scores.length);
+      var result = [];
+      if(typeof calculator._players != "undefined"){
+          console.log("there is an array");
+          var players = calculator._players;
+          for(var i = 0 ; i<players.length;i++){
+              var total = vm.getTotalScore(players[i]);
+              result.push(total);
+          }
+      }else{
+          console.log("cannot access to undefined ");
+      }
+      return result;
+  }
 
   vm.allPlayerScored = function(){
     if(vm.calculator._players.length==0) return false;
@@ -61,7 +88,7 @@ function CalculatorCtrl ($scope, $routeParams, $location, $window, Utils, Calcul
         console.log("player at 0 ");
         vm.numRound = vm.getRound();
         vm.editingNames = Utils.initDefaultArray(vm.calculator._players.length, false);
-        console.log(vm.editingNames);
+        vm.updateRanks();
         copyState();
       })
       .catch(function(error) {
@@ -135,6 +162,11 @@ function CalculatorCtrl ($scope, $routeParams, $location, $window, Utils, Calcul
     //console.log("total nb player = " + vm.nbRealPlayers);
     vm.editingNbPlayers = !vm.editingNbPlayers;
   }
+
+  vm.updateRanks = function(){
+      vm.ranks = Utils.getRanks(vm.getAllScores(vm.calculator));
+  }
+
   vm.cancelNbPlayers = function(){
     //console.log("nbTemps "+vm.nbTemp);
       vm.nb = vm.nbTemp;
@@ -164,6 +196,7 @@ function CalculatorCtrl ($scope, $routeParams, $location, $window, Utils, Calcul
     console.log("inc");
     console.log(JSON.stringify(vm.calculator._players[index]));
     console.log(vm.calculator._players[index]._scores[vm.numRound]!=null);
+    vm.updateRanks();
     // vm.players[index].scored = true;
   }
 
@@ -171,6 +204,7 @@ function CalculatorCtrl ($scope, $routeParams, $location, $window, Utils, Calcul
     vm.calculator._players[index]._scores[vm.numRound] = -vm.playerOrder;
     // vm.calculator._players[index].total-=vm.playerOrder;
     vm.playerOrder+=1;
+    vm.updateRanks();
     // vm.players[index].scored = true;
   }
 

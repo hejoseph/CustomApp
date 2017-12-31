@@ -1,9 +1,14 @@
 
 var utils;
 
+Date.prototype.addHours = function(h) {    
+   this.setTime(this.getTime() + (h*60*60*1000)); 
+   return this;   
+}
+
 function Utils(){
     this.getDate = function(){
-        return (new Date()).toLocaleString("FR");
+        return (new Date()).addHours(1).toLocaleString("FR");
     }
     this.sleep = function(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));

@@ -10,6 +10,7 @@ angular.
     controllerAs: 'vm'
   });
 
+
 function ListCalculatorCtrl($scope, $routeParams, $location, $window, Calculator) {
   var vm = this;
   vm.calculators = [];
@@ -38,9 +39,12 @@ function ListCalculatorCtrl($scope, $routeParams, $location, $window, Calculator
   // console.log("hello list calculator 2 "+vm.calculators);
 
   vm.calculator = {
-      _name : "",
-      _nbPlayers :0
+      _name : "No name",
+      _nbPlayers :3
   }; 
+
+  console.log("hey");
+  console.log(document.getElementById("main"));
 
   vm.createCalculator = function(calculator){
     if(!calculator._name || calculator._nbPlayers < 3){
@@ -54,6 +58,7 @@ function ListCalculatorCtrl($scope, $routeParams, $location, $window, Calculator
       console.log(resp);
       console.log(JSON.stringify(resp));
       var idCreated = resp.id;
+      document.getElementsByClassName("modal-backdrop fade show").remove();
       $window.location.href = "#/declic/calc/"+idCreated;
     })
     .catch(function(error) {
