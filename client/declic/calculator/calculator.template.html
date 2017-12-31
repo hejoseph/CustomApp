@@ -7,13 +7,54 @@
 
 <div class="container" style="padding-top:30px 0px; text-align:center">
     
-<div><a href="/#/declic/list-calc">Back</a></div>
+<div><a href="/#/declic/list-calc"><button type="button" class="btn btn-info command">Back</button></a>
+    <button type="button" ng-show="!vm.editing" class="btn btn-info command" ng-click="vm.editing=!vm.editing">Edit</button>
+    <button type="button" class="btn btn-info command" ng-show="vm.editing" ng-click="vm.stopEdit()">Stop Edit</button>
+</div>
 <div ng-show="vm.calculator._players.length>0">
-    <div>
-        Round {{vm.numRound+1}}
+    <div class="round">
+        <h4>Round {{vm.numRound+1}}</h1>
     </div>
     
+    <div class="table-responsive">
+    <table class="table" stle="text-align:center">
+        <thead>
+            <tr>
+                <th>Points</th>
+                <th>Player</th>
+                <th>+</th>
+                <th>-</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="player in vm.calculator._players track by $index" >
+                <td>{{player._scores[vm.numRound]}}</td>
+                <td><div ng-show="!vm.editing">{{player._name}}</div><div ng-show="vm.editing"><input ng-model="player._name"/></div></td>
+                <td>
+                    <span ng-show="player._scores[vm.numRound]==null">
+                  <button class="btn btn-success add" ng-click="vm.addScore($index)">+</button>
+                </span>
+                </td>
+                <td>
+                    <span ng-show="player._scores[vm.numRound]==null">
+                  <button class="btn btn-danger sub" ng-click="vm.subScore($index)">-</button>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <div>
+        <button class="btn btn-info validate" ng-show="vm.allPlayerScored()" ng-click="vm.validateRound()">Validate Round</button>
+            <button class="btn btn-info" ng-show="vm.onePlayerScore()" ng-click="vm.resetRound()">Reset Round</button>
+    </div>
+  </div>
+
+</div>
+    
+    <br>
+    <hr>
+
+    <!-- <div>
         <ul>
             <li ng-repeat="player in vm.calculator._players">
               <div>
@@ -27,17 +68,20 @@
                   <button ng-click="vm.setName($index)">Ok</button>
                 </span>
                 <span ng-show="player._scores[vm.numRound]==null">
-                  <button ng-click="vm.addScore($index)">+</button>
-                  <button ng-click="vm.subScore($index)">-</button>
+                  <button class="btn btn-success" ng-click="vm.addScore($index)">+</button>
+                  <button class="btn btn-danger" ng-click="vm.subScore($index)">-</button>
                 </span>
               </div>
             </li>
             <li>
-            <button ng-show="vm.allPlayerScored()" ng-click="vm.validateRound()">Validate Round</button>
-            <button ng-show="vm.onePlayerScore()" ng-click="vm.resetRound()">Reset Round</button>
+            <button class="btn btn-info validate" ng-show="vm.allPlayerScored()" ng-click="vm.validateRound()">Validate Round</button>
+            <button class="btn btn-info" ng-show="vm.onePlayerScore()" ng-click="vm.resetRound()">Reset Round</button>
             </li>
         </ul>
-    </div>
+    </div> -->
+
+
+
   <div class="table-responsive" ng-show="vm.calculator._players[0]._scores.length>0">
     <table class="table" stle="text-align:center">
         <thead>
@@ -56,7 +100,8 @@
                 <td>{{player._name}}</td>
                 <td>{{vm.getTotalScore(player)}}</td>
                 <td ng-repeat="score in player._scores track by $index"" >
-                    {{score}}
+                    <div ng-show="!vm.editing">{{score}}</div>
+                    <div ng-show="vm.editing"><input ng-model="score"  /></div>
                 </td>
             </tr>
         </tbody>

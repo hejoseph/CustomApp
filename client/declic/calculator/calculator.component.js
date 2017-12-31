@@ -25,6 +25,15 @@ function CalculatorCtrl ($scope, $routeParams, $location, $window, Utils, Calcul
   var id = $routeParams.calcId;
   vm.calculator = {"_players":[]};
   vm.ranks = [];
+  vm.editing = false;
+
+  vm.stopEdit = function(){
+    vm.editing=!vm.editing;
+    // save calculator
+    Calculator.saveCalculator(vm.calculator);
+  }
+
+
   vm.getRound = function(){
       console.log("getting round");
       if(vm.calculator._players.length>0){

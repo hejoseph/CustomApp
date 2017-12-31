@@ -18,6 +18,15 @@ a {
     color : red;
 }
 
+.command{
+   padding:5px;
+   margin:5px;
+}
+
+.add,.sub{
+  /*padding:0px;*/
+}
+
 li{
   list-style: none;
 }
