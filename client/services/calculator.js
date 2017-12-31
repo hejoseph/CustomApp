@@ -35,6 +35,21 @@ angular.module('factories')
       });
   }
 
+  var createCalculator = function(calc){
+      console.log("telling service to create a new calc");
+      var req = {name:calc._name, nb_player:calc._nbPlayers};
+      return $http({
+        method: 'POST',
+        url: '/api/createCalculator',
+        data: req
+      })
+      .then(function(resp){
+          console.log("response from server after creating ...");
+          console.log(resp.data);
+          return resp.data;
+      });
+  }
+
   // var submitTicket = function(ticket) {
   //   return $http({
   //     method: 'POST',
@@ -62,7 +77,8 @@ angular.module('factories')
   return {
     getCalculators: getCalculators,
     getCalculator: getCalculator,
-    saveCalculator: saveCalculator
+    saveCalculator: saveCalculator,
+    createCalculator: createCalculator
     // getArchive: getArchive,
     // submitTicket: submitTicket,
     // updateTicket: updateTicket,

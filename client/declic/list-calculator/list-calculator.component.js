@@ -31,13 +31,35 @@ function ListCalculatorCtrl($scope, $routeParams, $location, $window, Calculator
     console.log(JSON.stringify(url));
     // alert('hi url='+url);
     $window.location.href = url;
-
   }
 
   // console.log("hello list calculator 1 "+vm.calculators);
   vm.getCalculators();
   // console.log("hello list calculator 2 "+vm.calculators);
 
+  vm.calculator = {
+      _name : "",
+      _nbPlayers :0
+  }; 
 
+  vm.createCalculator = function(calculator){
+    if(!calculator._name || calculator._nbPlayers < 3){
+      console.log("condition not respected to create a new calc");
+    }
+    console.log("OK Condition");
+
+    Calculator.createCalculator(calculator)
+    .then(function(resp) {
+      console.log("success creating ?");
+      console.log(resp);
+      console.log(JSON.stringify(resp));
+      var idCreated = resp.id;
+      $window.location.href = "#/declic/calc/"+idCreated;
+    })
+    .catch(function(error) {
+      console.log("error creating");
+      console.error(error);
+    });
+  }
 
 }

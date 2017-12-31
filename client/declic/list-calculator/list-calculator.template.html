@@ -1,5 +1,19 @@
 <h1>List Calculator View</h1>
-
+<button ng-click="creating=true" ng-show="!creating" class="btn btn-primary">+</button>
+<div ng-show="creating">
+    <form novalidate name="submitTicketForm" class='submitTicketForm' ng-submit='vm.createCalculator(vm.calculator)'>
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" class="form-control" ng-model="vm.calculator._name">
+        </div>
+        <div class="form-group">
+          <label>Nb players</label>
+          <input type="text" class="form-control" ng-model="vm.calculator._nbPlayers"></input>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button class="btn btn-primary" ng-click="creating=false">Close</button>
+      </form>
+</div>
 <div class="row">
     <table>
         <thead>

@@ -130,13 +130,14 @@ exports.getCalculator = (req, res) => {
 
 //req = {"name":"name","nb_player":2}
 exports.createCalculator = (req, res) => {
-    console.log("client ask server to crate calculator");
+    console.log("client ask server to create calculator");
 
     var param = req.body;
     var name = param.name;
     var nb = param.nb_player;
     console.log("name : "+name+";nb="+nb);
     var id = declic.createCalculator(name, nb);
+    req.body.id = id;
     return res.json(req.body);
 };
 
