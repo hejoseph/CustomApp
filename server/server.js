@@ -43,7 +43,7 @@ server.listen(port, (err) => {
     : console.log(`Connected! Server is listening on port ${port}`);
 });
 // Hook Socket.io into Express
-var io = require('socket.io').listen(server);
+var io = require('socket.io')(server);
 
 io.sockets.on('connection', socket);
 

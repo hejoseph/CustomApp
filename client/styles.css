@@ -147,3 +147,14 @@ textarea {
   min-height: 7rem;
 }
 */
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 50px;
+}
+@media (min-width: 600px) {
+    .grid-container {
+        grid-template-columns: 1fr 350px 350px 1fr;
+    }
+}
