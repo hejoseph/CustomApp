@@ -29,10 +29,6 @@ npm start
 
 # Usage
 
-## Starting the Application
-
-After the server starts, access the application through your browser at the specified URL.
-
 ## Features
 
 - Calculator View: Displays a comprehensive view for managing calculators, rounds, and player scores.
@@ -44,3 +40,32 @@ The application's main functionalities are divided into Angular components:
 
 - list-calculator: Manages the list of calculators.
 - calculator: Handles the detailed management of individual calculators, including rounds and player scores.
+
+## Starting the Application
+
+After the server starts, access the application through your browser at http://localhost:3000/#/declic/list-calc.
+
+- Click on "+":
+
+![creating_game](screenshots/creating_game.png)
+
+- You can click on edit, to set player's name, or starting giving points
+
+![before_first_round](screenshots/before_first_round.png)
+
+- By clicking "+", on this order "player 1, player 3, player 5", and "-" on player 4
+
+![first_round_clicking](screenshots/first_round_clicking.png)
+
+- You can validate or reset the point of the round :
+
+![before_validate](screenshots/before_validate.png)
+
+- When validating :
+
+![second_round](screenshots/second_round.png)
+
+- We can see scores at the each round, and the total points of each players, and their rank.
+
+![each_round_point](screenshots/each_round_point.png)
+
